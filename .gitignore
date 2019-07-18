@@ -2,3 +2,7 @@
 __pycache__/
 
 *.sublime-workspace
+
+docs/
+
+mod_images/
