@@ -1,4 +1,6 @@
-#Config
+#Copyright - Chase Kidder 2019
+#INF-img-mgmt - config.py
+#Config File
 
 #Folder to Search For Photos to be Processed
 img_dir = "/home/chase/repos/INF-img-mgmt/images"
