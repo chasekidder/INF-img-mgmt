@@ -14,6 +14,8 @@ import os
 
 def Tag_Untagged_Photos():
 
+	file_found = False
+
 	#Get a list of untagged files
 	exif.check_tags(cfg.img_dir)
 
@@ -24,6 +26,7 @@ def Tag_Untagged_Photos():
 			file = file.rstrip()
 			if not file: continue
 
+			file_found = True
 			print("Processing File: " + file)
 
 			#Add the "Not Uploaded" tags to file
@@ -32,7 +35,12 @@ def Tag_Untagged_Photos():
 			exif.add_tag(cfg.img_dir + os.sep + file, "NotUploadedToFieldDisplay")
 
 
-	return 0
+	if file_found == True:
+		return 0
+
+	else:
+		print("No New Files to Tag")
+		return 0
 
 
 def AV_Field_Display():
@@ -124,8 +132,6 @@ def Photon_Wall():
 			exif.remove_tag(img_path, "PhotonWall_ReadyToUpload")
 
 
-
-
 	return 0
 
 def Main(): 
@@ -134,30 +140,13 @@ def Main():
 	Tag_Untagged_Photos()
 
 	#Resize, Crop, and Save to Field Display
-	#AV_Field_Display()
+	AV_Field_Display()
 
 	#Resize, Crop, and Save to Temp Folder for Photon Wall
 	Photon_Wall()
 
-	#Start the Photon Wall Upload
-	#Upload_To_Photon_Wall
-
 	#Upload to Flickr
 	#Upload_To_Flickr()
-
-
-
-
-	#process = Popen(['exiftool', '-stay_open=1', "-@=exiftoolargs.args"], stdin=PIPE, stdout=PIPE)
-	#exiftool -make -model -csv -@ file_list.args > out.csv
-	#exiftool -stay_open True -@ ARGFILE
-
-
-	
-
-	
-
-
   
 
 if __name__=="__main__": 
