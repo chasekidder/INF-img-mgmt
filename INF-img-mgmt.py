@@ -14,140 +14,148 @@ import os
 
 def Tag_Untagged_Photos():
 
-	file_found = False
+    file_found = False
 
-	#Get a list of untagged files
-	exif.check_tags(cfg.img_dir)
-
-
-	#Open matches file and run the conversion on each match
-	with open('untagged_files.txt','r') as tag_file:
-		for file in tag_file:
-			file = file.rstrip()
-			if not file: continue
-
-			file_found = True
-			print("Processing File: " + file)
-
-			#Add the "Not Uploaded" tags to file
-			exif.add_tag(cfg.img_dir + os.sep + file, "NotUploadedToFlickr")
-			exif.add_tag(cfg.img_dir + os.sep + file, "NotUploadedToPhotonWall")
-			exif.add_tag(cfg.img_dir + os.sep + file, "NotUploadedToFieldDisplay")
+    #Get a list of untagged files
+    exif.check_tags(cfg.img_dir)
 
 
-	if file_found == True:
-		return 0
+    #Open matches file and run the conversion on each match
+    with open('untagged_files.txt','r') as tag_file:
+        for file in tag_file:
+            file = file.rstrip()
+            if not file: continue
 
-	else:
-		print("No New Files to Tag")
-		return 0
+            file_found = True
+            print("Processing File: " + file)
+
+            #Add the "Not Uploaded" tags to file
+            exif.add_tag(cfg.img_dir + os.sep + file, 
+                        "NotUploadedToFlickr")
+
+            exif.add_tag(cfg.img_dir + os.sep + file, 
+                        "NotUploadedToPhotonWall")
+
+            exif.add_tag(cfg.img_dir + os.sep + file,
+                         "NotUploadedToFieldDisplay")
+
+
+    if file_found == True:
+        return 0
+
+    else:
+        print("No New Files to Tag")
+        return 0
 
 
 def AV_Field_Display():
 
-	#Find files to work with
-	exif.find_tag(cfg.img_dir, "NotUploadedToFieldDisplay")
+    #Find files to work with
+    exif.find_tag(cfg.img_dir, "NotUploadedToFieldDisplay")
 
-	#Open matches file and run the conversion on each match
-	with open('match_tag.txt','r') as tag_file:
-		for line in tag_file:
-			line = line.rstrip()
-			if not line: continue
+    #Open matches file and run the conversion on each match
+    with open('match_tag.txt','r') as tag_file:
+        for line in tag_file:
+            line = line.rstrip()
+            if not line: continue
 
-			print("Processing File: " + line)
-			
-			#Config
-			img_name = line
-			img_path = cfg.img_dir + os.sep + img_name
-			new_img_path = cfg.field_display_dir + os.sep + cfg.fd_pre_txt + img_name
+            print("Processing File: " + line)
+            
+            #Config
+            img_name = line
+            img_path = cfg.img_dir + os.sep + img_name
+            new_img_path = cfg.field_display_dir + os.sep \
+                             + cfg.fd_pre_txt + img_name
 
-			print(img_path)
+            print(img_path)
 
-			#Open Image for Editing
-			img = Image.open(img_path)
+            #Open Image for Editing
+            img = Image.open(img_path)
 
-			#Resize and Crop Image to Config Dimensions
-			resized_img = exif.resize_image(img, cfg.AV_scale_dims)
-			cropped_img = exif.crop_image(resized_img, cfg.AV_scale_dims)
+            #Resize and Crop Image to Config Dimensions
+            resized_img = exif.resize_image(img, cfg.AV_scale_dims)
+            cropped_img = exif.crop_image(resized_img, cfg.AV_scale_dims)
 
-			#Save the Cropped and Scaled Image To Disk
-			exif.save_image(cropped_img, new_img_path)
+            #Save the Cropped and Scaled Image To Disk
+            exif.save_image(cropped_img, new_img_path)
 
-			#Add "ReadyToBeUploaded" Tag
-			exif.add_tag(img_path, "FieldDisplay_UploadedTo")
+            #Add "ReadyToBeUploaded" Tag
+            exif.add_tag(img_path, "FieldDisplay_UploadedTo")
 
-			#Remove "NotUploaded" Tag
-			exif.remove_tag(img_path, "NotUploadedToFieldDisplay")
+            #Remove "NotUploaded" Tag
+            exif.remove_tag(img_path, "NotUploadedToFieldDisplay")
 
 
-	return 0
+    return 0
 
 def Photon_Wall():
 
-	#Find files to work with
-	exif.find_tag(cfg.img_dir, "NotUploadedToPhotonWall")
+    #Find files to work with
+    exif.find_tag(cfg.img_dir, "NotUploadedToPhotonWall")
 
-	#Open matches file and run the conversion on each match
-	with open('match_tag.txt','r') as tag_file:
-		for line in tag_file:
-			line = line.rstrip()
-			if not line: continue
+    #Open matches file and run the conversion on each match
+    with open('match_tag.txt','r') as tag_file:
+        for line in tag_file:
+            line = line.rstrip()
+            if not line: continue
 
-			print("Processing File: " + line)
-			
-			#Config
-			img_name = line
-			img_path = cfg.img_dir + os.sep + img_name
-			new_img_path = cfg.photon_wall_dir + os.sep + cfg.pw_pre_txt + img_name
+            print("Processing File: " + line)
+            
+            #Config
+            img_name = line
+            img_path = cfg.img_dir + os.sep + img_name
+            new_img_path = cfg.photon_wall_dir + os.sep \
+                             + cfg.pw_pre_txt + img_name
 
-			print(img_path)
+            print(img_path)
 
-			#Open Image for Editing
-			img = Image.open(img_path)
+            #Open Image for Editing
+            img = Image.open(img_path)
 
-			#Resize and Crop Image to Config Dimensions
-			resized_img = exif.resize_image(img, cfg.PW_scale_dims)
-			cropped_img = exif.crop_image(resized_img, cfg.PW_scale_dims)
+            #Resize and Crop Image to Config Dimensions
+            resized_img = exif.resize_image(img, cfg.PW_scale_dims)
+            cropped_img = exif.crop_image(resized_img, cfg.PW_scale_dims)
 
-			#Save the Cropped and Scaled Image To Disk
-			exif.save_image(cropped_img, new_img_path)
+            #Save the Cropped and Scaled Image To Disk
+            exif.save_image(cropped_img, new_img_path)
 
-			#Add "ReadyToUpload" Tag
-			exif.add_tag(img_path, "PhotonWall_ReadyToUpload")
+            #Add "ReadyToUpload" Tag
+            exif.add_tag(img_path, "PhotonWall_ReadyToUpload")
 
-			#Remove "NotUploaded" Tag
-			exif.remove_tag(img_path, "NotUploadedToPhotonWall")
-
-
-
-			#TODO: Automatically upload the pictures to the Photon Wall then update the tag
-			print("UPLOADING TO PHOTON WALL...")
+            #Remove "NotUploaded" Tag
+            exif.remove_tag(img_path, "NotUploadedToPhotonWall")
 
 
 
-			#Add "UploadedTo" Tag
-			exif.add_tag(img_path, "PhotonWall_UploadedTo")
-
-			#Remove "ReadyToUpload" Tag
-			exif.remove_tag(img_path, "PhotonWall_ReadyToUpload")
+            #TODO: Automatically upload the pictures to the Photon Wall
+            # then update the tag
+            print("UPLOADING TO PHOTON WALL...")
 
 
-	return 0
+
+            #Add "UploadedTo" Tag
+            exif.add_tag(img_path, "PhotonWall_UploadedTo")
+
+            #Remove "ReadyToUpload" Tag
+            exif.remove_tag(img_path, "PhotonWall_ReadyToUpload")
+
+
+    return 0
 
 def Main(): 
-	
-	#Check for any untagged photos that have a rating
-	Tag_Untagged_Photos()
+    
+    #Check for any untagged photos that have a rating
+    Tag_Untagged_Photos()
 
-	#Resize, Crop, and Save to Field Display
-	AV_Field_Display()
+    #Resize, Crop, and Save to Field Display
+    AV_Field_Display()
 
-	#Resize, Crop, and Save to Temp Folder for Photon Wall
-	Photon_Wall()
+    #Resize, Crop, and Save to Temp Folder for Photon Wall
+    Photon_Wall()
 
-	#Upload to Flickr
-	#Upload_To_Flickr()
+    #Upload to Flickr
+    #Upload_To_Flickr()
   
 
 if __name__=="__main__": 
-	Main() 
+    Main() 
