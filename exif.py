@@ -76,7 +76,6 @@ def add_tag(file_path, tag):
 	#close exiftool
 	process.stdin.close()
 	process.wait()
-	print('exiftool finished with return code %d' % process.returncode)	
 
 	return 0
 
@@ -93,9 +92,6 @@ def remove_tag(file_path, tag):
 	#close exiftool
 	process.stdin.close()
 	process.wait()
-	print('exiftool finished with return code %d' % process.returncode)	
-
-
 
 	return 0
 
@@ -112,6 +108,5 @@ def copy_rating(file_path, new_file_path):
 	#close exiftool
 	process.stdin.close()
 	process.wait()
-	print('exiftool finished with return code %d' % process.returncode)	
 
 	return 0

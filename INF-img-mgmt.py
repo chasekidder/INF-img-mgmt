@@ -51,7 +51,7 @@ def AV_Field_Display():
 			#Config
 			img_name = line
 			img_path = cfg.img_dir + os.sep + img_name
-			new_img_path = cfg.temp_img_dir + os.sep + cfg.pre_txt + img_name
+			new_img_path = cfg.field_display_dir + os.sep + cfg.fd_pre_txt + img_name
 
 			print(img_path)
 
@@ -59,8 +59,8 @@ def AV_Field_Display():
 			img = Image.open(img_path)
 
 			#Resize and Crop Image to Config Dimensions
-			resized_img = exif.resize_image(img, cfg.scale_dims)
-			cropped_img = exif.crop_image(resized_img, cfg.scale_dims)
+			resized_img = exif.resize_image(img, cfg.AV_scale_dims)
+			cropped_img = exif.crop_image(resized_img, cfg.AV_scale_dims)
 
 			#Save the Cropped and Scaled Image To Disk
 			exif.save_image(cropped_img, new_img_path)
@@ -71,11 +71,57 @@ def AV_Field_Display():
 			#Remove "NotUploaded" Tag
 			exif.remove_tag(img_path, "NotUploadedToFieldDisplay")
 
-			#Add Metadata to New File
-			#exif.add_tag(new_img_path, "auto_test_tag")
 
-			#copy rating
-			#exif.copy_rating(img_path, new_img_path)
+	return 0
+
+def Photon_Wall():
+
+	#Find files to work with
+	exif.find_tag(cfg.img_dir, "NotUploadedToPhotonWall")
+
+	#Open matches file and run the conversion on each match
+	with open('match_tag.txt','r') as tag_file:
+		for line in tag_file:
+			line = line.rstrip()
+			if not line: continue
+
+			print("Processing File: " + line)
+			
+			#Config
+			img_name = line
+			img_path = cfg.img_dir + os.sep + img_name
+			new_img_path = cfg.photon_wall_dir + os.sep + cfg.pw_pre_txt + img_name
+
+			print(img_path)
+
+			#Open Image for Editing
+			img = Image.open(img_path)
+
+			#Resize and Crop Image to Config Dimensions
+			resized_img = exif.resize_image(img, cfg.PW_scale_dims)
+			cropped_img = exif.crop_image(resized_img, cfg.PW_scale_dims)
+
+			#Save the Cropped and Scaled Image To Disk
+			exif.save_image(cropped_img, new_img_path)
+
+			#Add "ReadyToUpload" Tag
+			exif.add_tag(img_path, "PhotonWall_ReadyToUpload")
+
+			#Remove "NotUploaded" Tag
+			exif.remove_tag(img_path, "NotUploadedToPhotonWall")
+
+
+
+			#TODO: Automatically upload the pictures to the Photon Wall then update the tag
+			print("UPLOADING TO PHOTON WALL...")
+
+
+
+			#Add "UploadedTo" Tag
+			exif.add_tag(img_path, "PhotonWall_UploadedTo")
+
+			#Remove "ReadyToUpload" Tag
+			exif.remove_tag(img_path, "PhotonWall_ReadyToUpload")
 
 
 
@@ -88,10 +134,10 @@ def Main():
 	Tag_Untagged_Photos()
 
 	#Resize, Crop, and Save to Field Display
-	AV_Field_Display()
+	#AV_Field_Display()
 
 	#Resize, Crop, and Save to Temp Folder for Photon Wall
-	#Photon_Wall()
+	Photon_Wall()
 
 	#Start the Photon Wall Upload
 	#Upload_To_Photon_Wall
