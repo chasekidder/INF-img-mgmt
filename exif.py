@@ -16,6 +16,22 @@ def find_tag(folder_path, tag):
 
 	return 0
 
+def check_tags(folder_path):
+	
+	#Check for all files in the folder that have a rating of 3 stars and no tags
+		#Command: exiftool -T -r -filename -if 'not $keywords' -if '$rating eq 3' [PATH GOES HERE]
+	subprocess.call("exiftool -T -r -filename -if 'not $keywords' -if '$rating eq 3' " + folder_path + " > untagged_files.txt", shell=True)
+
+
+	#TODO: See if I can change over to popen instead of subprocess.call
+		#7.18.19 - Can't seem to get the conditional to work right with the seperate argument format
+
+	#test_file = open('test_file.txt','w')
+	#process = Popen(["exiftool","-v1", "-filename", "-if","\'not $keywords\' ", folder_path], stdin=PIPE, stdout=test_file)
+		
+
+	return 0
+
 
 def resize_image(thumb_img, new_dimensions): 
 

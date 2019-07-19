@@ -1,2 +1,1 @@
-test.jpg
-tag.jpg
+ratingNoTag.jpg

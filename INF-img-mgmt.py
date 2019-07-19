@@ -12,6 +12,36 @@ import exif as exif
 from PIL import Image
 import os
 
+def Tag_Untagged_Photos():
+
+	#Get a list of untagged files
+	exif.check_tags(cfg.img_dir)
+
+	return 0
+	#TODO: Search for untagged but rated photos (time as well??)
+
+
+	#Open matches file and run the conversion on each match
+	with open('match_tag.txt','r') as tag_file:
+		for line in tag_file:
+			line = line.rstrip()
+			if not line: continue
+
+			print("Processing File: " + line)
+
+
+
+
+
+
+
+
+
+
+
+	return 0
+
+
 def AV_Field_Display():
 
 	#Find files to work with
@@ -42,7 +72,6 @@ def AV_Field_Display():
 
 			#Add Metadata to New File
 			exif.add_tag(new_img_path, "auto_test_tag")
-			exif.add_tag(new_img_path, "2nd_test_tag")
 
 			#copy rating
 			exif.copy_rating(img_path, new_img_path)
@@ -54,9 +83,22 @@ def AV_Field_Display():
 
 def Main(): 
 	
-	AV_Field_Display();
+	#Check for any untagged photos that have a rating
+	Tag_Untagged_Photos()
 
-	
+	#Resize, Crop, and Save to Field Display
+	#AV_Field_Display()
+
+	#Resize, Crop, and Save to Temp Folder for Photon Wall
+	#Photon_Wall()
+
+	#Start the Photon Wall Upload
+	#Upload_To_Photon_Wall
+
+	#Upload to Flickr
+	#Upload_To_Flickr()
+
+
 
 
 	#process = Popen(['exiftool', '-stay_open=1', "-@=exiftoolargs.args"], stdin=PIPE, stdout=PIPE)

@@ -1,0 +1,12 @@
+-------- /home/chase/repos/INF-img-mgmt/images/test4.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/test.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/test3.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/backup.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/exif.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/test2.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/test5.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/tag.jpg (failed condition)
+-------- /home/chase/repos/INF-img-mgmt/images/test1.jpg (failed condition)
+    1 directories scanned
+    9 files failed condition
+    0 image files read
