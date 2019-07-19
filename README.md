@@ -73,4 +73,4 @@ Hugh Meyer
 
 
 
- © [Chase Kidder](2019)
+ © [Chase Kidder](https://www.linkedin.com/in/chasekidder/) 2019

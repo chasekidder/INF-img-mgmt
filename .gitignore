@@ -12,3 +12,5 @@ images_backup/
 images/
 
 photon_wall/
+
+*.txt
