@@ -52,9 +52,9 @@ PW_scale_dims = (1360, 786)
 ## How to use?
 
 Download .zip that includes the following files:
-	- INF-img-mgmt.py
-	- exif.py
-	- config.py
+- INF-img-mgmt.py
+- exif.py
+- config.py
 
 Edit the config.py file to adjust to your file paths and scaling preferences.
 
