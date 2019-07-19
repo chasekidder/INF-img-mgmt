@@ -9,7 +9,7 @@ import config as cfg
 import exif as exif
 
 #Regular Imports
-from PIL import Image
+from PIL import Image, ImageOps
 import os
 
 def Tag_Untagged_Photos():
@@ -17,26 +17,19 @@ def Tag_Untagged_Photos():
 	#Get a list of untagged files
 	exif.check_tags(cfg.img_dir)
 
-	return 0
-	#TODO: Search for untagged but rated photos (time as well??)
-
 
 	#Open matches file and run the conversion on each match
-	with open('match_tag.txt','r') as tag_file:
-		for line in tag_file:
-			line = line.rstrip()
-			if not line: continue
+	with open('untagged_files.txt','r') as tag_file:
+		for file in tag_file:
+			file = file.rstrip()
+			if not file: continue
 
-			print("Processing File: " + line)
+			print("Processing File: " + file)
 
-
-
-
-
-
-
-
-
+			#Add the "Not Uploaded" tags to file
+			exif.add_tag(cfg.img_dir + os.sep + file, "NotUploadedToFlickr")
+			exif.add_tag(cfg.img_dir + os.sep + file, "NotUploadedToPhotonWall")
+			exif.add_tag(cfg.img_dir + os.sep + file, "NotUploadedToFieldDisplay")
 
 
 	return 0
@@ -45,7 +38,7 @@ def Tag_Untagged_Photos():
 def AV_Field_Display():
 
 	#Find files to work with
-	exif.find_tag(cfg.img_dir, "test_tag")
+	exif.find_tag(cfg.img_dir, "NotUploadedToFieldDisplay")
 
 	#Open matches file and run the conversion on each match
 	with open('match_tag.txt','r') as tag_file:
@@ -60,6 +53,8 @@ def AV_Field_Display():
 			img_path = cfg.img_dir + os.sep + img_name
 			new_img_path = cfg.temp_img_dir + os.sep + cfg.pre_txt + img_name
 
+			print(img_path)
+
 			#Open Image for Editing
 			img = Image.open(img_path)
 
@@ -70,11 +65,17 @@ def AV_Field_Display():
 			#Save the Cropped and Scaled Image To Disk
 			exif.save_image(cropped_img, new_img_path)
 
+			#Add "ReadyToBeUploaded" Tag
+			exif.add_tag(img_path, "FieldDisplay_UploadedTo")
+
+			#Remove "NotUploaded" Tag
+			exif.remove_tag(img_path, "NotUploadedToFieldDisplay")
+
 			#Add Metadata to New File
-			exif.add_tag(new_img_path, "auto_test_tag")
+			#exif.add_tag(new_img_path, "auto_test_tag")
 
 			#copy rating
-			exif.copy_rating(img_path, new_img_path)
+			#exif.copy_rating(img_path, new_img_path)
 
 
 
@@ -87,7 +88,7 @@ def Main():
 	Tag_Untagged_Photos()
 
 	#Resize, Crop, and Save to Field Display
-	#AV_Field_Display()
+	AV_Field_Display()
 
 	#Resize, Crop, and Save to Temp Folder for Photon Wall
 	#Photon_Wall()

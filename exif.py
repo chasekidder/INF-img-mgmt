@@ -10,9 +10,13 @@ def find_tag(folder_path, tag):
 	
 	#Write all matching images to file
 	#process = Popen(["exiftool", "−T", "-if","$keywords =~ test_tag", "-filename", folder_path], stdin=PIPE, stdout=PIPE)
-	subprocess.call("exiftool -T -r -filename -if '$keywords eq \"" + tag + "\"' " + folder_path + " > match_tag.txt", shell=True)
+	subprocess.call("exiftool -T -r -filename -if '$keywords =~ /" + tag + "/' " + folder_path + " > match_tag.txt", shell=True)
 
 	#exiftool -filename -if '$keywords eq "test_tag"' .
+
+	#Checks for the tag anywhere within the keywords field
+	#exiftool -filename -if '$keywords =~ /NotUploadedToFieldDisplay/' .
+	#-if '$keywords =~ /NotUploadedToFieldDisplay/'
 
 	return 0
 
@@ -22,6 +26,7 @@ def check_tags(folder_path):
 		#Command: exiftool -T -r -filename -if 'not $keywords' -if '$rating eq 3' [PATH GOES HERE]
 	subprocess.call("exiftool -T -r -filename -if 'not $keywords' -if '$rating eq 3' " + folder_path + " > untagged_files.txt", shell=True)
 
+	#TODO: Add modifydate check to command w/ configurable time setting to check against
 
 	#TODO: See if I can change over to popen instead of subprocess.call
 		#7.18.19 - Can't seem to get the conditional to work right with the seperate argument format
@@ -60,6 +65,8 @@ def save_image(img_toBeSaved, new_path):
 
 def add_tag(file_path, tag):
 
+	print("Adding \"" + tag + "\" to: " + file_path)
+
 	#Add keyword to file using exiftool
 	process = Popen(['exiftool', '-keywords+=' + tag, file_path, "-overwrite_original"], stdin=PIPE, stdout=PIPE)
 	
@@ -70,6 +77,25 @@ def add_tag(file_path, tag):
 	process.stdin.close()
 	process.wait()
 	print('exiftool finished with return code %d' % process.returncode)	
+
+	return 0
+
+def remove_tag(file_path, tag):
+
+	print("Removing \"" + tag + "\" from: " + file_path)
+
+	#Remove keyword to file using exiftool
+	process = Popen(['exiftool', '-keywords-=' + tag, file_path, "-overwrite_original"], stdin=PIPE, stdout=PIPE)
+	
+	#Read exiftool output
+	print(repr(process.stdout.readline()))
+
+	#close exiftool
+	process.stdin.close()
+	process.wait()
+	print('exiftool finished with return code %d' % process.returncode)	
+
+
 
 	return 0
 
