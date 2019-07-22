@@ -13,14 +13,19 @@ This project adheres to the Python PEP-8 standard. Mostly.
 
 ## Tech/framework used
 - [Pillow](https://github.com/python-pillow/Pillow)
+- [flickrapi](https://github.com/sybrenstuvel/flickrapi)
+- [pycrypto](https://github.com/dlitz/pycrypto)
 - [exiftool](https://github.com/exiftool/exiftool)
 
 ## Features
 - Automatic tagging of photos with rating of 3 stars
 - Automatic retagging of photos after completed operations
 - Automatic resizing and cropping to desired photo size
+- Automatic Upload to Flickr
 - Easily editable configuration file
 - Fully configurable search and output directories
+- AES Encrypted API secret storage
+- OAuth 1.0a Compatible
 - All processes independently configurable
 
 ## Configuration
@@ -28,6 +33,9 @@ config.py
 
 ```#Photo Input Search Directory
 img_dir = "[SEARCH DIRECTORY HERE]"
+
+#Flickr API Key
+flickr_api_key = ""
 
 #Field Display Output Directory
 field_display_dir = "/.../field_display"
@@ -52,17 +60,21 @@ PW_scale_dims = (1360, 786)
 ## How to use?
 
 Download .zip that includes the following files:
-- INF-img-mgmt.py
+- inf_img_mgmt.py
 - exif.py
+- crypt.py
+- funclib.py
 - config.py
 
 Edit the config.py file to adjust to your file paths and scaling preferences.
 
 ```gedit config.py```
 
-Run the main Python file to start the scan and process photos from the search directory.
+Run the main Python file to start initial API setup.
 
 ```python3 INF-img-mgmt.py```
+
+Directory scan and auto-tagging will begin.
 
 
 ## Credits
