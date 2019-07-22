@@ -1,4 +1,4 @@
-#Copyright - Chase Kidder 2019
+# Chase Kidder 2019
 #INF-img-mgmt - exif.py
 #Function file to keep EXIF tag functionality separate of the rest of
 # the program functions

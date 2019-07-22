@@ -1,4 +1,4 @@
-# Copyright - Chase Kidder 2019
+# Chase Kidder 2019
 # inf_img_mgmt - crypt.py
 # Cryptography Functions File
 

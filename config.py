@@ -1,4 +1,3 @@
-# Copyright - Chase Kidder 2019
 # inf_img_mgmt - config.py
 # Config File
 

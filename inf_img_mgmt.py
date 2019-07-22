@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-#Copyright - Chase Kidder 2019
-#INF-img-mgmt - INF-img-mgmt.py
+# Chase Kidder 2019
+#inf_img_mgmt - inf_img_mgmt.py
 #Main program file
 
 #Project Imports

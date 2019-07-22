@@ -83,6 +83,9 @@ IndianaFIRST
 
 Hugh Meyer
 
+Chase Kidder - Author
 
 
- © [Chase Kidder](https://www.linkedin.com/in/chasekidder/) 2019
+##License
+
+GPL-3.0
