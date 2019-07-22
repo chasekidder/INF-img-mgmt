@@ -12,7 +12,7 @@ def find_tag(folder_path, tag):
     #Write all matching images to file
     #process = Popen(["exiftool", "−T", "-if","$keywords =~ test_tag",
     # "-filename", folder_path], stdin=PIPE, stdout=PIPE)
-    subprocess.call("exiftool -T -r -filename -if '$keywords =~ /" 
+    subprocess.call("exiftool -m -q -q -T -r -filename -if '$keywords =~ /" 
                         + tag + "/' " + folder_path
                         + " > match_tag.txt", shell=True)
 
@@ -31,7 +31,7 @@ def check_tags(folder_path):
         #Command: 
         #exiftool -T -r -filename -if 'not $keywords' 
         # -if '$rating eq 3' [PATH GOES HERE]
-    subprocess.call("exiftool -T -r -filename -if 'not $keywords' \
+    subprocess.call("exiftool -m -q -q -T -r -filename -if 'not $keywords' \
                         -if '$rating eq 3' " + folder_path \
                         + " > untagged_files.txt", shell=True)
 
@@ -81,11 +81,11 @@ def add_tag(file_path, tag):
     print("Adding \"" + tag + "\" to: " + file_path)
 
     #Add keyword to file using exiftool
-    process = Popen(['exiftool', '-keywords+=' + tag, file_path, 
+    process = Popen(['exiftool', '-m', '-q', '-q', '-keywords+=' + tag, file_path, 
                     "-overwrite_original"], stdin=PIPE, stdout=PIPE)
     
     #Read exiftool output
-    print(repr(process.stdout.readline()))
+    #print(repr(process.stdout.readline()))
 
     #close exiftool
     process.stdin.close()
@@ -98,11 +98,11 @@ def remove_tag(file_path, tag):
     print("Removing \"" + tag + "\" from: " + file_path)
 
     #Remove keyword to file using exiftool
-    process = Popen(['exiftool', '-keywords-=' + tag, file_path, 
+    process = Popen(['exiftool', '-m', '-q', '-q', '-keywords-=' + tag, file_path, 
                     "-overwrite_original"], stdin=PIPE, stdout=PIPE)
     
     #Read exiftool output
-    print(repr(process.stdout.readline()))
+    #print(repr(process.stdout.readline()))
 
     #close exiftool
     process.stdin.close()
@@ -116,12 +116,12 @@ def copy_rating(file_path, new_file_path):
     #exiftool -TagsFromFile file.jpg '-Keywords>Description' file.jpg
 
     #Add keyword to file using exiftool
-    process = Popen(['exiftool', "−tagsFromFile", file_path,
+    process = Popen(['exiftool', '-m', '-q', '-q', "−tagsFromFile", file_path,
                     '-rating>rating',"-overwrite_original", 
                     new_file_path], stdin=PIPE, stdout=PIPE)
     
     #Read exiftool output
-    print(repr(process.stdout.readline()))
+    #print(repr(process.stdout.readline()))
 
     #close exiftool
     process.stdin.close()
