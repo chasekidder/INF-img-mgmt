@@ -3,11 +3,17 @@
 # Main Functions File
 
 import crypt 
+import config as cfg
+import flickrapi
+import exif
+import os
+from PIL import Image, ImageOps
 
 def init_setup():
     crypt.encrypt(input("Please enter API secret: "))
+
     print("Script Setup is Complete.")
-    
+
     return 0
 
 
@@ -143,19 +149,54 @@ def Photon_Wall():
 
 def Upload_To_Flickr():
 
-    #Unencrypt the key and secret
+    flickr = flickrapi.FlickrAPI(cfg.flickr_api_key, crypt.get_api_secret(), cache=True)
+    flickr.authenticate_console(perms='write')
+
+    #Find files to work with
+    exif.find_tag(cfg.img_dir, "NotUploadedToFlickr")
+
+    #Open matches file and run the conversion on each match
+    with open('match_tag.txt','r') as tag_file:
+        for line in tag_file:
+            line = line.rstrip()
+            if not line: continue
+
+            print("Processing File: " + line)
+            
+            #Config
+            img_name = line
+            img_path = cfg.img_dir + os.sep + img_name
+
+
+            print(img_path)
+
+            #Add "ReadyToUpload" Tag
+            exif.add_tag(img_path, "Flickr_ReadyToUpload")
+
+            #Remove "NotUploaded" Tag
+            exif.remove_tag(img_path, "NotUploadedToFlickr")
+
+            print("UPLOADING TO FLICKR...")
 
 
 
-    api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-    api_secret = "YYYYYYYYYYYYYYYY"
-    flickr = flickrapi.FlickrAPI(api_key, api_secret)
-    (token, frob) = flickr.get_token_part_one(perms="write")
-    if not token: 
-        #raw_input(“Press ENTER after you authorized this program”)
-        flickr.get_token_part_two((token, frob))
+            #Might want to remove tags prior to upload
 
 
-    #flickr.upload("c:\\SomeFolder\\SomeImage.png")
+
+            flickr.upload(img_path)
+
+
+            #Add "UploadedTo" Tag
+            exif.add_tag(img_path, "Flickr_UploadedTo")
+
+            #Remove "ReadyToUpload" Tag
+            exif.remove_tag(img_path, "Flickr_ReadyToUpload")
+
+
+
+
+
+    
 
     return 0

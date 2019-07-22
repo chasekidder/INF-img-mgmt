@@ -28,22 +28,21 @@ def Main():
 
 
     #Check for any untagged photos that have a rating
-    #func.Tag_Untagged_Photos()
+    func.Tag_Untagged_Photos()
 
     #Resize, Crop, and Save to Field Display
-    #func.AV_Field_Display()
+    func.AV_Field_Display()
 
     #Resize, Crop, and Save to Temp Folder for Photon Wall
-    #func.Photon_Wall()
+    func.Photon_Wall()
 
     #Upload to Flickr
-    #func.Upload_To_Flickr()
+    func.Upload_To_Flickr()
 
 
     #Process
     #encrypt secret
 
-    print(crypt.get_api_secret())
 
     print("SCRIPT END")
 

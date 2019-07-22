@@ -3,16 +3,16 @@
 # Config File
 
 #Flickr API Key
-api_key = ""
+flickr_api_key = ""
 
 # Photo Input Search Directory
-img_dir = "/home/chase/repos/INF-img-mgmt/images"
+img_dir = "/home/chase/repos/inf_img_mgmt/images"
 
 # Field Display Output Directory
-field_display_dir = "/home/chase/repos/INF-img-mgmt/field_display"
+field_display_dir = "/home/chase/repos/inf_img_mgmt/field_display"
 
 # Photon Wall Output Directory
-photon_wall_dir = "/home/chase/repos/INF-img-mgmt/photon_wall"
+photon_wall_dir = "/home/chase/repos/inf_img_mgmt/photon_wall"
 
 # Text to Prepend to Field Display Images
 fd_pre_txt = "fd_"
