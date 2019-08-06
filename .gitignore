@@ -17,3 +17,9 @@ photon_wall/
 *.key
 
 field_display/
+
+\.vscode/
+
+*.code-workspace
+
+*.log
