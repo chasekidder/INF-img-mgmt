@@ -1,50 +1,56 @@
 #!/usr/bin/env python3
 
-#Copyright - Chase Kidder 2019
-#INF-img-mgmt - INF-img-mgmt.py
-#Main program file
+# Chase Kidder 2019
+#inf_img_mgmt - inf_img_mgmt.py
+# Main program file
 
-#Project Imports
+import crypt
+import logging
+import logging.config
+import os
+import sys
+
+import flickrapi
+from Crypto.Cipher import AES
+from PIL import Image, ImageOps
+
 import config as cfg
 import exif
-import crypt
 import funclib as func
 
-#Regular Imports
-from PIL import Image, ImageOps
-from Crypto.Cipher import AES
-import os
-import flickrapi
+
+def Main():
+    try:
+        logging.config.fileConfig(fname = cfg.LOGGER_CONFIG_FILE)
+        logger = logging.getLogger(__name__)
+    except KeyError:
+        print("CRITICAL ERROR: could not initialize logger")
+        sys.exit()
+
+    #logging.basicConfig(filename='output.log', level=logging.DEBUG,
+                       # format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
-def Main(): 
-     
     setup_complete = os.path.isfile(os.getcwd() + os.sep + "api.key")
 
     if (setup_complete == False):
-        print("Running Flickr API Setup...")
+        logger.warning("Running Setup...")
         func.init_setup()
 
-
-
-    #Check for any untagged photos that have a rating
+    # Check for any untagged photos that have a rating
     func.Tag_Untagged_Photos()
 
-    #Resize, Crop, and Save to Field Display
+    # Resize, Crop, and Save to Field Display
     func.AV_Field_Display()
 
-    #Resize, Crop, and Save to Temp Folder for Photon Wall
+    # Resize, Crop, and Save to Temp Folder for Photon Wall
     func.Photon_Wall()
 
-    #Upload to Flickr
+    # Upload to Flickr
     func.Upload_To_Flickr()
 
-
-    #Process
-    #encrypt secret
+    logger.warning("SCRIPT END")
 
 
-    print("SCRIPT END")
-
-if __name__=="__main__": 
-    Main() 
+if __name__ == "__main__":
+    Main()
