@@ -4,7 +4,7 @@
 
 from Crypto.Cipher import AES
 from Crypto import Random
-from . import config as cfg
+import config as cfg
 import sys
 
 

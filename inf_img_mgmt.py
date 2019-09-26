@@ -5,22 +5,16 @@
 #Main program file
 
 #Project Imports
-from . import config as cfg
-from . import exif
-from . import funclib as func
-from . import crypt
-
+import config as cfg
+import exif
+import crypt
+import funclib as func
 
 #Regular Imports
 from PIL import Image, ImageOps
 from Crypto.Cipher import AES
 import os
 import flickrapi
-
-
-
-
-
 
 
 def Main(): 
@@ -52,3 +46,5 @@ def Main():
 
     print("SCRIPT END")
 
+if __name__=="__main__": 
+    Main() 
