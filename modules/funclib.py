@@ -2,10 +2,10 @@
 # inf_img_mgmt - funclib.py
 # Main Functions File
 
-import crypt 
-import config as cfg
+from . import crypt 
+from . import config as cfg
 import flickrapi
-import exif
+from . import exif
 import os
 from PIL import Image, ImageOps
 
