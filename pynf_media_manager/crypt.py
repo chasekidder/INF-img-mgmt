@@ -6,23 +6,23 @@ from Crypto.Cipher import AES
 from Crypto import Random
 import config as cfg
 import sys
+import socket
+import hashlib
 
 
 
-def get_machine_id():
-    #Grab the unique machine ID code
-    machine_id_file = open("/etc/machine-id", "r")
-    if machine_id_file.mode == 'r':
-        machine_id = machine_id_file.read()
-
-    return machine_id
-
+def get_id():
+    # Generate an encryption key from the hostname
+    hname = socket.gethostname()
+    md5 = hashlib.md5(hname.encode('utf-8')).hexdigest()
+    
+    return md5
 
 
 def encrypt(data):
 
     #Generate a unique hash key
-    key = get_machine_id().rstrip()
+    key = get_id()
     #print("Hash Key: " + key)
 
     iv = Random.get_random_bytes(16)
@@ -47,7 +47,7 @@ def encrypt(data):
 
 def get_api_secret():
 
-    key = get_machine_id().rstrip()
+    key = get_id()
 
     file_in = open("api.key", "rb")
 
